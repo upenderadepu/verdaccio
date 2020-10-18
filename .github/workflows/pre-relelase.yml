@@ -1,7 +1,7 @@
 name: Pre Release
 on: push
 jobs:
-  report:
+  prerelease:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -10,15 +10,33 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.verdaccio.org'
       - name: Install pnpm
-        run: npm i pnpm@5.5.12 -g
+        run: npm i -g pnpm
       - name: Install
         run: pnpm recursive install
       - name: Change version
         run: pnpm changeset version
-      - name: Commit report
+      - name: Update lock file
+        run: pnpm recursive install --frozen-lockfile=false
+      - name: Commit versions
         run: |
           git config --global user.name 'Juan Picado'
           git config --global user.email 'juanpicado19@gmail.com'
           git add .
-          git commit -am "release: example"
+          git commit -am "chore: publish pre-release"
+      - name: Set npm token
+        run: echo "//registry.verdaccio.org/:_authToken=${{ secrets.PUBLISH_CANARY_VERDACCIO_TOKEN }}" > /home/runner/work/_temp/.npmrc
+      - name: see npmrc
+        run: cat ./.npmrc
+      - name: Build
+        run: pnpm build
+      - name: Update last commit
+        run: |
+          git add .
+          git commit --amend --no-edit
+      - name: Publish pre-release
+        run: pnpm publish --filter ./packages --registry=https://registry.verdaccio.org --tag=alpha
+        env:
+          NPM_TOKEN: ${{ secrets.PUBLISH_CANARY_VERDACCIO_TOKEN }}
+      - name: Push release
+        run: |
           git push
