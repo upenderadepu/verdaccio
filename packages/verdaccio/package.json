@@ -43,7 +43,8 @@
     "@verdaccio/node-api": "workspace:5.0.0-alpha.0",
     "@verdaccio/cli": "workspace:5.0.0-alpha.0",
     "verdaccio-htpasswd": "9.7.2",
-    "@verdaccio/ui-theme": "^1.12.1"
+    "@verdaccio/ui-theme": "1.14.0",
+    "verdaccio-audit": "^9.7.3"
   },
   "devDependencies": {
     "@verdaccio/auth": "workspace:5.0.0-alpha.0",
