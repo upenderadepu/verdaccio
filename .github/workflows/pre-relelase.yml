@@ -1,0 +1,24 @@
+name: Pre Release
+on: push
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.verdaccio.org'
+      - name: Install pnpm
+        run: npm i pnpm@5.5.12 -g
+      - name: Install
+        run: pnpm recursive install
+      - name: Change version
+        run: pnpm changeset version
+      - name: Commit report
+        run: |
+          git config --global user.name 'Juan Picado'
+          git config --global user.email 'juanpicado19@gmail.com'
+          git add .
+          git commit -am "release: example"
+          git push
