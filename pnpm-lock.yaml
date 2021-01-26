@@ -967,7 +967,6 @@ importers:
       '@verdaccio/middleware': link:../middleware
       '@verdaccio/readme': link:../core/readme
       '@verdaccio/store': link:../store
-      '@verdaccio/ui-theme': link:../plugins/ui-theme
       '@verdaccio/utils': link:../utils
       body-parse: 0.1.0
       body-parser: 1.19.0
@@ -987,7 +986,6 @@ importers:
       '@verdaccio/readme': workspace:10.0.0-alpha.3
       '@verdaccio/store': workspace:5.0.0-alpha.4
       '@verdaccio/types': workspace:10.0.0-alpha.3
-      '@verdaccio/ui-theme': workspace:5.0.0-alpha.4
       '@verdaccio/utils': workspace:5.0.0-alpha.3
       body-parse: 0.1.0
       body-parser: 1.19.0
