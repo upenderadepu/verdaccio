@@ -4,18 +4,17 @@ on:
   push:
     paths:
       - .github/workflows/docker-publish.yml
-      - 'src/**'
-      - 'conf/**'
-      - 'types/**'
+      - .github/workflows/docker-publish.yml
+      - 'packages/**'
       - 'docker-bin/**'
-      - 'bin/**'
       - 'package.json'
-      - 'yarn.lock'
+      - 'pnpm-*.yaml'
+      - 'Dockerfile'
+      - '.dockerignore'
     branches:
-      - '**'
+      - 'master'
     tags:
       - 'v*'
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -35,7 +34,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: ${{ github.repository }}
-          tag-custom: 4.x-next
+          tag-custom: nightly-master
           tag-custom-only: ${{ github.ref == 'refs/heads/master' }}
           tag-semver: |
             {{version}}
@@ -46,7 +45,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
